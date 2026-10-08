@@ -1,0 +1,173 @@
+.stack {
+  position: relative;
+}
+
+.slot {
+  display: contents;
+}
+
+.anchor {
+  display: block;
+  height: 0;
+}
+
+.panel {
+  position: relative;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  transform-origin: 50% 0%;
+  color: var(--fg);
+  background: var(--bg);
+}
+
+.card[data-theme='light'] {
+  --fg: var(--ink);
+  --bg: var(--paper);
+  --sub: var(--muted);
+  --rule: var(--line);
+}
+
+.card[data-theme='warm'] {
+  --fg: var(--ink);
+  --bg: var(--paper-2);
+  --sub: var(--muted);
+  --rule: var(--line);
+}
+
+.card[data-theme='dark'] {
+  --fg: var(--paper);
+  --bg: var(--ink);
+  --sub: rgba(243, 241, 236, 0.6);
+  --rule: rgba(243, 241, 236, 0.16);
+}
+
+.inner {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: clamp(32px, 6vw, 110px);
+  align-items: end;
+  padding: calc(var(--nav-h) + 32px) var(--gutter) clamp(40px, 7vh, 80px);
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sub);
+}
+
+.eyebrow span {
+  color: var(--accent);
+}
+
+.title {
+  margin: 20px 0 0;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(72px, 11vw, 190px);
+  line-height: 0.86;
+  letter-spacing: -0.04em;
+}
+
+.subtitle {
+  max-width: 30ch;
+  margin: 20px 0 0;
+  font-size: clamp(17px, 1.4vw, 21px);
+  line-height: 1.4;
+  color: var(--sub);
+}
+
+.highlight {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-top: clamp(28px, 5vh, 56px);
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+}
+
+.highlightValue {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(44px, 5vw, 76px);
+  line-height: 1;
+  color: var(--accent);
+}
+
+.highlightLabel {
+  max-width: 26ch;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--sub);
+}
+
+.items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.items[data-columns='2'] {
+  column-count: 2;
+  column-gap: 32px;
+}
+
+.items li {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 8px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: clamp(15px, 1.15vw, 17px);
+  line-height: 1.4;
+  break-inside: avoid;
+}
+
+.itemIndex {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--sub);
+  padding-top: 3px;
+}
+
+.shade {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Stacking only where every slide fits on one screen. */
+@media (min-width: 900px) and (min-height: 680px) and (prefers-reduced-motion: no-preference) {
+  .panel {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+  }
+  .card {
+    height: 100%;
+    min-height: 0;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 899px) {
+  .inner {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  .items[data-columns='2'] {
+    column-count: 1;
+  }
+}

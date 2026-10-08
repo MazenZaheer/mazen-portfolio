@@ -1,0 +1,130 @@
+.hero {
+  position: relative;
+  /* The homepage is just this screen: exactly one viewport, no scrolling. */
+  height: 100svh;
+  min-height: 560px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  padding: calc(var(--nav-h) + 16px) 0 clamp(20px, 3vh, 40px);
+  overflow: hidden;
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.bg {
+  position: absolute;
+  inset: -6% -8%;
+  z-index: 0;
+}
+
+.pan {
+  position: absolute;
+  inset: 0;
+  animation: pan 38s ease-in-out infinite alternate;
+}
+
+.bgImage {
+  object-fit: cover;
+  /* Background stays mostly monochrome; colour is saved for the cards. */
+  filter: grayscale(85%) contrast(1.05) brightness(0.72);
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(15, 15, 14, 0.55) 0%, rgba(15, 15, 14, 0.1) 40%, rgba(15, 15, 14, 0.75) 100%);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  padding: 0 var(--gutter);
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(243, 241, 236, 0.7);
+  padding-bottom: clamp(20px, 4vh, 48px);
+  border-bottom: 1px solid rgba(243, 241, 236, 0.18);
+}
+
+.headline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  column-gap: 40px;
+  margin-top: clamp(16px, 3vh, 32px);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(60px, min(10.5vw, 17vh), 190px);
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+}
+
+.word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.06em;
+}
+
+.word > span {
+  display: inline-block;
+}
+
+.dot {
+  color: var(--accent);
+}
+
+.lede {
+  max-width: 30ch;
+  margin: 12px 0 0.6em;
+  font-size: clamp(15px, 1.2vw, 18px);
+  line-height: 1.4;
+  color: rgba(243, 241, 236, 0.82);
+}
+
+.rail {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.rail > * {
+  flex: 1;
+}
+
+@media (max-width: 640px) {
+  .hideSm {
+    display: none;
+  }
+}
+
+@keyframes pan {
+  0% { transform: scale(1.08) translate3d(-2%, -1%, 0); }
+  100% { transform: scale(1.16) translate3d(2.5%, 1.5%, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pan {
+    animation: none;
+    transform: scale(1.08);
+  }
+}

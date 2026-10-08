@@ -1,0 +1,242 @@
+.root {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Colour behind the glass is what makes the frost legible. */
+.backdrop {
+  position: absolute;
+  inset: -10% -5%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.85;
+  animation: drift 18s ease-in-out infinite alternate;
+}
+
+.blobA {
+  width: 38vw;
+  height: 38vw;
+  max-width: 520px;
+  max-height: 520px;
+  left: 8%;
+  top: 22%;
+  background: var(--accent);
+}
+
+.blobB {
+  width: 30vw;
+  height: 30vw;
+  max-width: 420px;
+  max-height: 420px;
+  right: 10%;
+  top: 8%;
+  background: #f3f1ec;
+  opacity: 0.35;
+  animation-duration: 22s;
+  animation-direction: alternate-reverse;
+}
+
+.blobC {
+  width: 24vw;
+  height: 24vw;
+  max-width: 340px;
+  max-height: 340px;
+  right: 30%;
+  bottom: 0;
+  background: #6d5cff;
+  opacity: 0.5;
+  animation-duration: 26s;
+}
+
+/* ---- Tabs --------------------------------------------------------- */
+
+.tabs {
+  display: inline-flex;
+  gap: 4px;
+  padding: 5px;
+  margin-bottom: clamp(28px, 4vw, 48px);
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.tab {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 14px;
+  color: rgba(243, 241, 236, 0.7);
+  background: none;
+  cursor: pointer;
+  transition: color 0.3s var(--ease);
+}
+
+.tab[aria-selected='true'] {
+  color: var(--ink);
+}
+
+.pill {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: var(--paper);
+}
+
+.tabLabel {
+  position: relative;
+  white-space: nowrap;
+}
+
+.tabIndex {
+  font-family: var(--mono);
+  font-size: 10px;
+  opacity: 0.6;
+  margin-right: 4px;
+}
+
+/* ---- Stage: every panel shares one grid cell -------------------- */
+
+.stage {
+  display: grid;
+  padding-top: calc(var(--depth) * 30px);
+}
+
+.panel {
+  grid-area: 1 / 1;
+  position: relative;
+  padding: clamp(22px, 3vw, 44px);
+  border-radius: 22px;
+  color: var(--paper);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 30px 80px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  transform-origin: 50% 0%;
+}
+
+.panel[data-front='false'] {
+  cursor: pointer;
+}
+
+.panelHead {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(243, 241, 236, 0.65);
+}
+
+.panelBody {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 80px);
+  margin-top: clamp(28px, 4vw, 56px);
+  transition: opacity 0.4s var(--ease);
+}
+
+.panel[data-front='false'] .panelBody {
+  opacity: 0;
+}
+
+.panelTitle {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(40px, 5.4vw, 84px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+.short {
+  margin: 14px 0 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(20px, 1.8vw, 26px);
+  color: var(--accent);
+}
+
+.description {
+  max-width: 44ch;
+  margin: 20px 0 0;
+  line-height: 1.6;
+  color: rgba(243, 241, 236, 0.8);
+}
+
+.sideLabel {
+  margin: 0 0 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(243, 241, 236, 0.55);
+}
+
+.includes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.includes li {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.proof {
+  margin: 18px 0 0;
+  font-size: 13px;
+  color: rgba(243, 241, 236, 0.6);
+}
+
+.cta {
+  display: inline-flex;
+  gap: 10px;
+  margin-top: 22px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  color: var(--ink);
+  background: var(--paper);
+  text-decoration: none;
+  transition: background-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.cta:hover {
+  background: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .panelBody {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(8%, -10%, 0) scale(1.15); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob {
+    animation: none;
+  }
+}

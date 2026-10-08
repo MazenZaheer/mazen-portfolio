@@ -1,0 +1,248 @@
+:root {
+  --ink: #0f0f0e;
+  --paper: #f3f1ec;
+  --paper-2: #e7e3da;
+  --muted: #6f6c66;
+  --line: rgba(15, 15, 14, 0.14);
+  --accent: #ff4f1f;
+
+  --serif: var(--font-serif), 'Times New Roman', serif;
+  --sans: var(--font-sans), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: var(--font-mono), ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* power3.out, shared with GSAP and Framer Motion. */
+  --ease: cubic-bezier(0.33, 1, 0.68, 1);
+  --gutter: clamp(16px, 4vw, 56px);
+  --nav-h: 72px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  background: var(--paper);
+}
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+#shell {
+  position: relative;
+  background: var(--paper);
+  /* Images waiting to slide in sit off to the side; `clip` (unlike `hidden`)
+     trims them without creating a scroll container, so sticky slides still work. */
+  overflow-x: clip;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+::selection {
+  color: var(--paper);
+  background: var(--accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ---- Loader states (set by the boot script in layout.tsx) ---------- */
+
+html.intro-pending,
+html.intro-pending body {
+  background: #000;
+}
+
+html.intro-pending,
+html.scroll-locked {
+  overflow: hidden;
+}
+
+/* ---- Lenis ------------------------------------------------------ */
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ---- Custom cursor hides the system one on mouse devices ---------- */
+
+@media (hover: hover) and (pointer: fine) {
+  html.has-cursor,
+  html.has-cursor * {
+    cursor: none !important;
+  }
+}
+
+/* ---- Grayscale → colour media (Kima) ------------------------------ */
+
+.gs img {
+  filter: grayscale(100%);
+  transform: scale(1.001);
+  transition:
+    filter 0.45s var(--ease),
+    transform 0.7s var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gs:hover img,
+  .gs:focus-visible img {
+    filter: grayscale(0%);
+    transform: scale(1.04);
+  }
+}
+
+.gs.is-color img {
+  filter: grayscale(0%);
+  transform: scale(1.03);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gs img {
+    transition: filter 0.2s linear;
+  }
+  .gs:hover img,
+  .gs.is-color img {
+    transform: none;
+  }
+}
+
+/* ---- Shared micro-interactions ------------------------------------ */
+
+/* Underline draws in from the left, leaves to the right. */
+.u-link {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
+  background-size: 0% 1px;
+  transition: background-size 0.5s var(--ease);
+  padding-bottom: 0.04em;
+}
+
+a:hover .u-link,
+a:focus-visible .u-link,
+.u-link:hover,
+.u-link:focus-visible {
+  background-position: 0% 100%;
+  background-size: 100% 1px;
+}
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  font: inherit;
+  font-size: 15px;
+  color: inherit;
+  background: none;
+  text-decoration: none;
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 0.45s var(--ease), border-color 0.45s var(--ease);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--accent);
+  border-radius: inherit;
+  transform: translateY(101%);
+  transition: transform 0.5s var(--ease);
+}
+
+.btn:hover,
+.btn:focus-visible {
+  color: var(--ink);
+  border-color: var(--accent);
+}
+
+.btn:hover::before,
+.btn:focus-visible::before {
+  transform: translateY(0);
+}
+
+/* ---- Layout helpers ------------------------------------------------ */
+
+.container {
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+.section {
+  padding-top: clamp(96px, 14vw, 200px);
+  padding-bottom: clamp(96px, 14vw, 200px);
+}
+
+.theme-dark {
+  color: var(--paper);
+  background: var(--ink);
+  --line: rgba(243, 241, 236, 0.16);
+  --muted: rgba(243, 241, 236, 0.6);
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.eyebrow b {
+  font-weight: 400;
+  color: var(--accent);
+}
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 11000;
+  padding: 10px 16px;
+  border-radius: 999px;
+  color: var(--paper);
+  background: var(--ink);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+/* SplitText masks. */
+.split-line-mask,
+[data-reveal='lines'] > div {
+  padding-bottom: 0.06em;
+}

@@ -1,0 +1,18 @@
+.frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--paper-2);
+}
+
+.image {
+  object-fit: cover;
+  filter: grayscale(100%);
+}
+
+@media (max-width: 768px) {
+  .frame {
+    aspect-ratio: 4 / 5;
+  }
+}

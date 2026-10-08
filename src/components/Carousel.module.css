@@ -1,0 +1,208 @@
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* ---- Stage: the ring orbits a fixed featured card ----------------- */
+
+.stage {
+  --item-w: clamp(64px, 8.6vw, 132px);
+  /* Sized so name + ring + controls fit one screen (the homepage doesn't scroll). */
+  --feature-w: clamp(170px, min(24vw, (100svh - 500px) * 0.7), 380px);
+  position: relative;
+  flex: 1;
+  min-height: calc(var(--feature-w) * 1.16 + 40px);
+  display: grid;
+  place-items: center;
+  perspective: 900px;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  outline: none;
+  cursor: grab;
+}
+
+.stage:active {
+  cursor: grabbing;
+}
+
+.stage:focus-visible .feature {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.item {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--item-w);
+  aspect-ratio: 126 / 175;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  background: #1b1b19;
+  cursor: inherit;
+  will-change: transform, opacity;
+  -webkit-user-drag: none;
+}
+
+.item img {
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* ---- Featured card ------------------------------------------------- */
+
+.feature {
+  position: relative;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  width: var(--feature-w);
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.45);
+  -webkit-user-drag: none;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: 34px;
+  padding: 0 6px 0 10px;
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.barTitle {
+  display: block;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.barCta {
+  flex-shrink: 0;
+  padding: 4px 9px;
+  font-size: 12px;
+  color: var(--paper);
+  background: var(--ink);
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+}
+
+.feature:hover .barCta,
+.feature:focus-visible .barCta {
+  color: var(--ink);
+  background: var(--accent);
+}
+
+.featureMedia {
+  position: relative;
+  display: block;
+  aspect-ratio: 0.86 / 1;
+  overflow: hidden;
+  background: #1b1b19;
+}
+
+/* Images crossfade; the incoming one settles from a slight zoom. */
+.featureImage {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.08);
+  transition:
+    opacity 0.6s var(--ease),
+    transform 1.2s var(--ease);
+}
+
+.featureImage[data-active='true'] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.featureImage img {
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.feature:hover .featureImage[data-active='true'] {
+  transform: scale(1.03);
+}
+
+/* ---- Controls ------------------------------------------------------ */
+
+.controls {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 14px var(--gutter) 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(243, 241, 236, 0.7);
+}
+
+.count {
+  font-variant-numeric: tabular-nums;
+  color: var(--paper);
+}
+
+.arrows {
+  justify-self: end;
+  display: flex;
+  gap: 6px;
+}
+
+.arrow {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(243, 241, 236, 0.3);
+  font: inherit;
+  font-size: 14px;
+  color: var(--paper);
+  background: none;
+  cursor: pointer;
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+
+.arrow:hover,
+.arrow:focus-visible {
+  color: var(--ink);
+  background: var(--paper);
+  border-color: var(--paper);
+}
+
+@media (max-width: 640px) {
+  .stage {
+    --feature-w: clamp(160px, 46vw, 220px);
+  }
+  .note {
+    display: none;
+  }
+  .controls {
+    grid-template-columns: auto 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .featureImage {
+    transition: opacity 0.2s linear;
+    transform: none;
+  }
+}

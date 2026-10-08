@@ -1,0 +1,11 @@
+node_modules
+.next
+out
+next-env.d.ts
+*.tsbuildinfo
+.DS_Store
+
+# Local tool state (Netlify site link, editor/agent settings)
+.netlify
+.vercel
+.claude

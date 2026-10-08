@@ -1,0 +1,83 @@
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  will-change: transform;
+}
+
+.circle {
+  position: absolute;
+  top: -48px;
+  left: -48px;
+  width: 96px;
+  height: 96px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff;
+  transform: scale(0.14);
+  opacity: 0;
+  transition:
+    transform 0.45s var(--ease),
+    background-color 0.3s var(--ease),
+    opacity 0.3s var(--ease);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #000;
+  opacity: 0;
+  transition: opacity 0.2s var(--ease);
+}
+
+.cursor[data-visible='true'] .circle {
+  opacity: 1;
+}
+
+.cursor[data-variant='link'] .circle {
+  transform: scale(0.46);
+}
+
+.cursor[data-variant='view'] .circle,
+.cursor[data-variant='drag'] .circle {
+  transform: scale(1);
+}
+
+.cursor[data-variant='view'] .label,
+.cursor[data-variant='drag'] .label,
+.cursor[data-variant='accent'] .label {
+  opacity: 1;
+}
+
+/* Colour shift: the accent state drops the inversion and paints solid. */
+.cursor[data-variant='accent'] {
+  mix-blend-mode: normal;
+}
+
+.cursor[data-variant='accent'] .circle {
+  transform: scale(0.8);
+  background: var(--accent);
+}
+
+.cursor[data-variant='accent'] .label {
+  color: var(--ink);
+}
+
+.cursor[data-variant='hidden'] .circle {
+  transform: scale(0);
+}
+
+.cursor[data-pressed='true'] .circle {
+  transform: scale(0.1);
+}
+
+.cursor[data-pressed='true'][data-variant='view'] .circle,
+.cursor[data-pressed='true'][data-variant='drag'] .circle {
+  transform: scale(0.88);
+}
